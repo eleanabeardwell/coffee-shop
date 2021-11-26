@@ -2,10 +2,9 @@ import java.util.List;
 
 public class Latte extends Coffee{
 
-    Latte(Size size) {
+    public void makeCoffee(){
         setAvailableSize(List.of(Size.SMALL, Size.MEDIUM, Size.LARGE));
-        setSize(size);
-        setPrice(2.95);
+        setBasePrice(2.55);
     }
 
 }

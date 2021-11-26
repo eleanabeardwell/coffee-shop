@@ -7,71 +7,88 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CoffeeTest {
 
-    private Latte smallLatte;
-    private Latte mediumLatte;
-    private Cappuccino smallCappuccino;
-    private Cappuccino largeCappuccino;
-    private Espresso doubleEspresso;
+    private Latte latte;
+    private Cappuccino cappuccino;
+    private Espresso espresso;
+    private Basket basket;
+    private BasketService service;
 
     @BeforeEach
     public void setUp() {
-        smallLatte = new Latte(Size.SMALL);
-        mediumLatte = new Latte(Size.MEDIUM);
-        smallCappuccino = new Cappuccino(Size.SMALL);
-        largeCappuccino = new Cappuccino(Size.LARGE);
-        doubleEspresso = new Espresso(Size.DOUBLE);
-    }
-
-    @Test
-    void testValidSize() {
-        assertTrue(smallLatte.checkSize());
-    }
-
-    @Test
-    void testInvalidSize() {
-        Latte invalid = new Latte(Size.SINGLE);
-
-        assertFalse(invalid.checkSize());
+        latte = new Latte();
+        cappuccino = new Cappuccino();
+        espresso = new Espresso();
+        basket = new Basket();
+        service = new BasketService();
     }
 
     @Test
     void testSmallLattePrice() {
-        double expected = 2.95;
-        double actual = smallLatte.calculatePrice();
+        double expected = 2.55;
+        latte.makeCoffee();
+        double actual = latte.getBasePrice();
 
         assertEquals(expected, actual);
     }
 
-     @Test
-     void testMediumLattePrice() {
-         double expected = 3.25;
-         double actual = mediumLatte.calculatePrice();
-
-         assertEquals(expected, actual);
-     }
 
     @Test
     void testSmallCappuccinoPrice() {
-        double expected = 3.15;
-        double actual = smallCappuccino.calculatePrice();
+        double expected = 2.75;
+        cappuccino.makeCoffee();
+        double actual = cappuccino.getBasePrice();
+
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void testSingleEspressoPrice() {
+        double expected = 1.10;
+        espresso.makeCoffee();
+        double actual = espresso.getBasePrice();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testValidLatteSize() {
+        latte.makeCoffee();
+        service.addProduct(basket, latte, Size.LARGE);
+        assertEquals(Size.LARGE, latte.getSize());
+    }
+
+    @Test
+    void testInvalidLatteSize() {
+        latte.makeCoffee();
+        service.addProduct(basket, latte, Size.SINGLE);
+        assertEquals(Size.MEDIUM, latte.getSize());
     }
 
     @Test
     void testLargeCappuccinoPrice() {
-        double expected = 3.75;
-        double actual = largeCappuccino.calculatePrice();
-
-        assertEquals(expected, actual);
+        cappuccino.makeCoffee();
+        service.addProduct(basket, cappuccino, Size.LARGE);
+        double expected = 3.35;
+        assertEquals(expected, basket.getTotalBasketPrice());
     }
 
     @Test
     void testDoubleEspressoPrice() {
+        espresso.makeCoffee();
+        service.addProduct(basket, espresso, Size.DOUBLE);
         double expected = 2.20;
-        double actual = doubleEspresso.calculatePrice();
+        assertEquals(expected, basket.getTotalBasketPrice());
+    }
 
-        assertEquals(expected, actual);
+    @Test
+    void testSmallLatteAndMediumCappuccinoPrice() {
+        latte.makeCoffee();
+        cappuccino.makeCoffee();
+        service.addProduct(basket, latte, Size.SMALL);
+        service.addProduct(basket, cappuccino, Size.MEDIUM);
+        double expected = 5.60;
+        assertEquals(5.60, basket.getTotalBasketPrice());
     }
 
 }

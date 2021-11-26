@@ -1,18 +1,18 @@
 public class Product {
 
-    private double price;
+    private double basePrice;
     private int stockLevel;
 
-    public double getPrice() {
-        return price;
+    public double getBasePrice() {
+        return basePrice;
     }
 
     public int getStockLevel() {
         return stockLevel;
     }
 
-    public void setPrice(double p) {
-        price = p;
+    public void setBasePrice(double p) {
+        basePrice = p;
     }
 
     public void setStockLevel(int s) {
