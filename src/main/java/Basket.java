@@ -1,7 +1,8 @@
+import java.util.Collections;
 import java.util.List;
 
 public class Basket {
-    private List<Product> contents;
+    private List<Product> contents = Collections.emptyList();
     private double totalBasketPrice;
 
     public List<Product> getContents() {

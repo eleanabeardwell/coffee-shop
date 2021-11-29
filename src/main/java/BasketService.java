@@ -1,19 +1,24 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class BasketService {
 
+    private final List<Product> runningContents = new ArrayList<>();
+
     public void addProduct(Basket basket, Coffee coffee, Size size) {
         if(checkSize(coffee, size)) {
             coffee.setSize(size);
-            calculatePrice(coffee);
-            basket.setTotalBasketPrice(basket.getTotalBasketPrice() + calculatePrice(coffee));
+            addCoffeeToBasket(basket, coffee);
         } else {
-            System.out.println("Not a valid size, setting to default M");
-            coffee.setSize(Size.MEDIUM);
-            calculatePrice(coffee);
-            basket.setTotalBasketPrice(basket.getTotalBasketPrice() + calculatePrice(coffee));
+            System.err.println("Not a valid size");
         }
+    }
 
+    private void addCoffeeToBasket(Basket basket, Coffee coffee) {
+        calculatePrice(coffee);
+        basket.setTotalBasketPrice(basket.getTotalBasketPrice() + calculatePrice(coffee));
+        runningContents.add(coffee);
+        basket.setContents(runningContents);
     }
 
     public boolean checkSize(Coffee coffee, Size size) {

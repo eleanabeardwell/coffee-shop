@@ -18,4 +18,5 @@ public class Product {
     public void setStockLevel(int s) {
         stockLevel = s;
     }
+
 }

@@ -1,8 +1,8 @@
 import java.util.List;
 
-public class Coffee extends Product{
-    public Size size;
-    public List<Size> availableSize;
+public abstract class Coffee extends Product{
+    private Size size;
+    private List<Size> availableSize;
 
     public void setSize(Size s) {
         size = s;
@@ -19,5 +19,7 @@ public class Coffee extends Product{
     public List<Size> getAvailableSize() {
         return availableSize;
     }
+
+    public abstract void makeCoffee();
 
 }

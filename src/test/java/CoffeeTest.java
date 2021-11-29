@@ -2,7 +2,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CoffeeTest {
@@ -62,7 +61,7 @@ class CoffeeTest {
     void testInvalidLatteSize() {
         latte.makeCoffee();
         service.addProduct(basket, latte, Size.SINGLE);
-        assertEquals(Size.MEDIUM, latte.getSize());
+        assertTrue(basket.getContents().isEmpty());
     }
 
     @Test
@@ -88,7 +87,17 @@ class CoffeeTest {
         service.addProduct(basket, latte, Size.SMALL);
         service.addProduct(basket, cappuccino, Size.MEDIUM);
         double expected = 5.60;
-        assertEquals(5.60, basket.getTotalBasketPrice());
+        assertEquals(expected, basket.getTotalBasketPrice());
+    }
+
+    @Test
+    void testLargeLatteAndDoubleEspressoPrice() {
+        latte.makeCoffee();
+        espresso.makeCoffee();
+        service.addProduct(basket, latte, Size.LARGE);
+        service.addProduct(basket, espresso, Size.DOUBLE);
+        double expected = 5.35;
+        assertEquals(expected, basket.getTotalBasketPrice());
     }
 
 }
