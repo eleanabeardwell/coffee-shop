@@ -2,9 +2,8 @@ import java.util.List;
 
 public class Espresso extends Coffee{
 
-    public void makeCoffee(){
-        setAvailableSize(List.of(Size.SINGLE, Size.DOUBLE));
-        setBasePrice(1.10);
+    public Espresso() {
+        super(1.10, 60, List.of(Size.SINGLE, Size.DOUBLE));
     }
 
 }

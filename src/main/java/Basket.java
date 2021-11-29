@@ -1,8 +1,8 @@
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Basket {
-    private List<Product> contents = Collections.emptyList();
+    private List<Product> contents = new ArrayList<>();
     private double totalBasketPrice;
 
     public List<Product> getContents() {
@@ -10,14 +10,15 @@ public class Basket {
     }
 
     public double getTotalBasketPrice() {
+        for(Product product: contents) {
+            if (product instanceof Coffee) {
+                totalBasketPrice += product.getBasePrice() + ((Coffee) product).getSize().getAdditionalCost();
+            } else totalBasketPrice += product.getBasePrice();
+        }
         return totalBasketPrice;
     }
 
-    public void setContents(List<Product> c) {
-        contents = c;
-    }
-
-    public void setTotalBasketPrice(double p) {
-        totalBasketPrice = p;
+    public void addContents(Product p) {
+        contents.add(p);
     }
 }

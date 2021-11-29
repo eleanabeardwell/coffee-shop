@@ -24,7 +24,6 @@ class CoffeeTest {
     @Test
     void testSmallLattePrice() {
         double expected = 2.55;
-        latte.makeCoffee();
         double actual = latte.getBasePrice();
 
         assertEquals(expected, actual);
@@ -34,9 +33,7 @@ class CoffeeTest {
     @Test
     void testSmallCappuccinoPrice() {
         double expected = 2.75;
-        cappuccino.makeCoffee();
         double actual = cappuccino.getBasePrice();
-
 
         assertEquals(expected, actual);
     }
@@ -44,7 +41,6 @@ class CoffeeTest {
     @Test
     void testSingleEspressoPrice() {
         double expected = 1.10;
-        espresso.makeCoffee();
         double actual = espresso.getBasePrice();
 
         assertEquals(expected, actual);
@@ -52,21 +48,18 @@ class CoffeeTest {
 
     @Test
     void testValidLatteSize() {
-        latte.makeCoffee();
         service.addProduct(basket, latte, Size.LARGE);
         assertEquals(Size.LARGE, latte.getSize());
     }
 
     @Test
     void testInvalidLatteSize() {
-        latte.makeCoffee();
         service.addProduct(basket, latte, Size.SINGLE);
         assertTrue(basket.getContents().isEmpty());
     }
 
     @Test
     void testLargeCappuccinoPrice() {
-        cappuccino.makeCoffee();
         service.addProduct(basket, cappuccino, Size.LARGE);
         double expected = 3.35;
         assertEquals(expected, basket.getTotalBasketPrice());
@@ -74,7 +67,6 @@ class CoffeeTest {
 
     @Test
     void testDoubleEspressoPrice() {
-        espresso.makeCoffee();
         service.addProduct(basket, espresso, Size.DOUBLE);
         double expected = 2.20;
         assertEquals(expected, basket.getTotalBasketPrice());
@@ -82,8 +74,6 @@ class CoffeeTest {
 
     @Test
     void testSmallLatteAndMediumCappuccinoPrice() {
-        latte.makeCoffee();
-        cappuccino.makeCoffee();
         service.addProduct(basket, latte, Size.SMALL);
         service.addProduct(basket, cappuccino, Size.MEDIUM);
         double expected = 5.60;
@@ -92,8 +82,6 @@ class CoffeeTest {
 
     @Test
     void testLargeLatteAndDoubleEspressoPrice() {
-        latte.makeCoffee();
-        espresso.makeCoffee();
         service.addProduct(basket, latte, Size.LARGE);
         service.addProduct(basket, espresso, Size.DOUBLE);
         double expected = 5.35;
