@@ -1,17 +1,19 @@
+import java.math.BigDecimal;
+
 public enum Size {
-    SMALL (0),
-    MEDIUM (0.3),
-    LARGE (0.6),
-    SINGLE (0),
-    DOUBLE (1.10);
+    SMALL (new BigDecimal("0")),
+    MEDIUM (new BigDecimal("0.3")),
+    LARGE (new BigDecimal("0.6")),
+    SINGLE (new BigDecimal("0")),
+    DOUBLE (new BigDecimal("1.1"));
 
-    private double additionalCost;
+    private BigDecimal additionalCost;
 
-    Size(double additionalCost) {
+    Size(BigDecimal additionalCost) {
         this.additionalCost = additionalCost;
     }
 
-    public double getAdditionalCost() {
+    public BigDecimal getAdditionalCost() {
         return additionalCost;
     }
 }

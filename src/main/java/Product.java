@@ -1,18 +1,16 @@
-import java.util.List;
+import java.math.BigDecimal;
 
 public abstract class Product {
 
-    private double basePrice;
+    private BigDecimal basePrice;
     private int stockLevel;
-    private List<Size> availableSizes;
 
-    public Product(double basePrice, int stockLevel, List<Size> availableSizes) {
+    protected Product(BigDecimal basePrice, int stockLevel) {
         this.basePrice = basePrice;
         this.stockLevel = stockLevel;
-        this.availableSizes = availableSizes;
     }
 
-    public double getBasePrice() {
+    public BigDecimal getBasePrice() {
         return basePrice;
     }
 
@@ -26,10 +24,6 @@ public abstract class Product {
 
     public void depleteStockLevel() {
         setStockLevel(--stockLevel);
-    }
-
-    public List<Size> getAvailableSizes() {
-        return availableSizes;
     }
 
 }

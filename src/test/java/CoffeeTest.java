@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -10,6 +12,7 @@ class CoffeeTest {
     private Cappuccino cappuccino;
     private Espresso espresso;
     private Basket basket;
+    private Croissant croissant;
     private BasketService service;
 
     @BeforeEach
@@ -18,13 +21,14 @@ class CoffeeTest {
         cappuccino = new Cappuccino();
         espresso = new Espresso();
         basket = new Basket();
+        croissant = new Croissant();
         service = new BasketService();
     }
 
     @Test
     void testSmallLattePrice() {
-        double expected = 2.55;
-        double actual = latte.getBasePrice();
+        BigDecimal expected = new BigDecimal("2.55");
+        BigDecimal actual = latte.getBasePrice();
 
         assertEquals(expected, actual);
     }
@@ -32,16 +36,16 @@ class CoffeeTest {
 
     @Test
     void testSmallCappuccinoPrice() {
-        double expected = 2.75;
-        double actual = cappuccino.getBasePrice();
+        BigDecimal expected = new BigDecimal("2.75");
+        BigDecimal actual = cappuccino.getBasePrice();
 
         assertEquals(expected, actual);
     }
 
     @Test
     void testSingleEspressoPrice() {
-        double expected = 1.10;
-        double actual = espresso.getBasePrice();
+        BigDecimal expected = new BigDecimal("1.10");
+        BigDecimal actual = espresso.getBasePrice();
 
         assertEquals(expected, actual);
     }
@@ -61,14 +65,14 @@ class CoffeeTest {
     @Test
     void testLargeCappuccinoPrice() {
         service.addProduct(basket, cappuccino, Size.LARGE);
-        double expected = 3.35;
+        BigDecimal expected = new BigDecimal("3.35");
         assertEquals(expected, basket.getTotalBasketPrice());
     }
 
     @Test
     void testDoubleEspressoPrice() {
         service.addProduct(basket, espresso, Size.DOUBLE);
-        double expected = 2.20;
+        BigDecimal expected = new BigDecimal("2.20");
         assertEquals(expected, basket.getTotalBasketPrice());
     }
 
@@ -76,7 +80,7 @@ class CoffeeTest {
     void testSmallLatteAndMediumCappuccinoPrice() {
         service.addProduct(basket, latte, Size.SMALL);
         service.addProduct(basket, cappuccino, Size.MEDIUM);
-        double expected = 5.60;
+        BigDecimal expected = new BigDecimal("5.60");
         assertEquals(expected, basket.getTotalBasketPrice());
     }
 
@@ -84,7 +88,15 @@ class CoffeeTest {
     void testLargeLatteAndDoubleEspressoPrice() {
         service.addProduct(basket, latte, Size.LARGE);
         service.addProduct(basket, espresso, Size.DOUBLE);
-        double expected = 5.35;
+        BigDecimal expected = new BigDecimal("5.35");
+        assertEquals(expected, basket.getTotalBasketPrice());
+    }
+
+    @Test
+    void testCappuccinoAndCroissantPrice() {
+        service.addProduct(basket, cappuccino, Size.MEDIUM);
+        service.addProduct(basket, croissant);
+        BigDecimal expected = new BigDecimal("4.85");
         assertEquals(expected, basket.getTotalBasketPrice());
     }
 

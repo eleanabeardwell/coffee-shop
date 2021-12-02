@@ -9,6 +9,9 @@ public class BasketService {
         }
     }
 
+    public void addProduct(Basket basket, Pastry pastry) {
+        basket.addContents(pastry);
+    }
 
     public boolean checkSize(Coffee coffee, Size size) {
         return coffee.getAvailableSizes().contains(size);

@@ -1,9 +1,10 @@
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Espresso extends Coffee{
 
     public Espresso() {
-        super(1.10, 60, List.of(Size.SINGLE, Size.DOUBLE));
+        super(new BigDecimal("1.10"), 60, List.of(Size.SINGLE, Size.DOUBLE));
     }
 
 }
