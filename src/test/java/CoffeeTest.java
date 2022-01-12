@@ -3,23 +3,20 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CoffeeTest {
 
-    private Latte latte;
-    private Cappuccino cappuccino;
-    private Espresso espresso;
     private Basket basket;
     private Croissant croissant;
     private BasketService service;
 
     @BeforeEach
     public void setUp() {
-        latte = new Latte();
-        cappuccino = new Cappuccino();
-        espresso = new Espresso();
         basket = new Basket();
         croissant = new Croissant();
         service = new BasketService();
@@ -27,6 +24,7 @@ class CoffeeTest {
 
     @Test
     void testSmallLattePrice() {
+        var latte = new Latte(Size.SMALL);
         BigDecimal expected = new BigDecimal("2.55");
         BigDecimal actual = latte.getBasePrice();
 
@@ -36,6 +34,7 @@ class CoffeeTest {
 
     @Test
     void testSmallCappuccinoPrice() {
+        var cappuccino = new Cappuccino(Size.SMALL);
         BigDecimal expected = new BigDecimal("2.75");
         BigDecimal actual = cappuccino.getBasePrice();
 
@@ -44,6 +43,7 @@ class CoffeeTest {
 
     @Test
     void testSingleEspressoPrice() {
+        var espresso = new Espresso(Size.SINGLE);
         BigDecimal expected = new BigDecimal("1.10");
         BigDecimal actual = espresso.getBasePrice();
 
@@ -52,49 +52,61 @@ class CoffeeTest {
 
     @Test
     void testValidLatteSize() {
-        service.addProduct(basket, latte, Size.LARGE);
+        var latte = new Latte(Size.LARGE);
+        service.addProduct(basket, latte);
         assertEquals(Size.LARGE, latte.getSize());
     }
 
     @Test
     void testInvalidLatteSize() {
-        service.addProduct(basket, latte, Size.SINGLE);
-        assertTrue(basket.getContents().isEmpty());
+        assertThrows(RuntimeException.class,
+                     () -> {
+                         var latte = new Latte(Size.SINGLE);
+                         service.addProduct(basket, latte);
+                     });
     }
 
     @Test
     void testLargeCappuccinoPrice() {
-        service.addProduct(basket, cappuccino, Size.LARGE);
+        var cappuccino = new Cappuccino(Size.LARGE);
+        service.addProduct(basket, cappuccino);
         BigDecimal expected = new BigDecimal("3.35");
         assertEquals(expected, basket.getTotalBasketPrice());
     }
 
     @Test
     void testDoubleEspressoPrice() {
-        service.addProduct(basket, espresso, Size.DOUBLE);
+        var espresso = new Espresso(Size.DOUBLE);
+        service.addProduct(basket, espresso);
         BigDecimal expected = new BigDecimal("2.20");
         assertEquals(expected, basket.getTotalBasketPrice());
     }
 
     @Test
     void testSmallLatteAndMediumCappuccinoPrice() {
-        service.addProduct(basket, latte, Size.SMALL);
-        service.addProduct(basket, cappuccino, Size.MEDIUM);
+        var latte = new Latte(Size.SMALL);
+        var cappuccino = new Cappuccino(Size.MEDIUM);
+        service.addProduct(basket, latte);
+        service.addProduct(basket, cappuccino);
         BigDecimal expected = new BigDecimal("5.60");
         assertEquals(expected, basket.getTotalBasketPrice());
     }
 
     @Test
     void testLargeLatteAndDoubleEspressoPrice() {
-        service.addProduct(basket, latte, Size.LARGE);
-        service.addProduct(basket, espresso, Size.DOUBLE);
+        var latte = new Latte(Size.LARGE);
+        var espresso = new Espresso(Size.DOUBLE);
+        service.addProduct(basket, latte);
+        service.addProduct(basket, espresso);
         BigDecimal expected = new BigDecimal("5.35");
+//        assertThat(basket.getTotalBasketPrice(), compareEquals(expected));
         assertEquals(expected, basket.getTotalBasketPrice());
     }
 
     @Test
     void testCappuccinoAndCroissantPrice() {
-        service.addProduct(basket, cappuccino, Size.MEDIUM);
+        var cappuccino = new Cappuccino(Size.MEDIUM);
+        service.addProduct(basket, cappuccino);
         service.addProduct(basket, croissant);
         BigDecimal expected = new BigDecimal("4.85");
         assertEquals(expected, basket.getTotalBasketPrice());

@@ -1,25 +1,19 @@
-import java.math.BigDecimal;
 import java.util.List;
 
-public abstract class Coffee extends Product{
-    private Size size;
-    private List<Size> availableSizes;
+public interface Coffee extends Product{
 
-    protected Coffee(BigDecimal basePrice, int stockLevel, List<Size> availableSizes) {
-        super(basePrice, stockLevel);
-        this.availableSizes = availableSizes;
-    }
+    void setSize(Size s);
 
-    public void setSize(Size s) {
-        size = s;
-    }
+    Size getSize();
 
-    public Size getSize() {
-        return size;
-    }
+    List<Size> getAvailableSizes();
 
-    public List<Size> getAvailableSizes() {
-        return availableSizes;
+    public default void checkSize(Size size) {
+        if (getAvailableSizes().contains(size)) {
+            return;
+        }
+        throw new RuntimeException("Invalid size");
+
     }
 
 }

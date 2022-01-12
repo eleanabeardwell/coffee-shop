@@ -1,10 +1,54 @@
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Espresso extends Coffee{
+public class Espresso implements Coffee{
 
-    public Espresso() {
-        super(new BigDecimal("1.10"), 60, List.of(Size.SINGLE, Size.DOUBLE));
+    private final List<Size> availableSizes = List.of(Size.SINGLE, Size.DOUBLE);
+    private Size size;
+    private BigDecimal basePrice = new BigDecimal("1.10");
+    private int stockLevel = 50;
+
+    public Espresso(Size size) {setSize(size);}
+
+
+    @Override
+    public void setSize(Size size) {
+        checkSize(size);
+        this.size = size;
     }
 
+    @Override
+    public Size getSize() {
+        return size;
+    }
+
+    @Override
+    public List<Size> getAvailableSizes() {
+        return availableSizes;
+    }
+
+    @Override
+    public BigDecimal getBasePrice() {
+        return basePrice;
+    }
+
+    @Override
+    public int getStockLevel() {
+        return stockLevel;
+    }
+
+    @Override
+    public void setStockLevel(int s) {
+        stockLevel = s;
+    }
+
+    @Override
+    public void depleteStockLevel() {
+        --stockLevel;
+    }
+
+    @Override
+    public BigDecimal getAdditionalCost() {
+        return size.getAdditionalCost();
+    }
 }

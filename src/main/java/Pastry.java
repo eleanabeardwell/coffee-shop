@@ -1,8 +1,3 @@
-import java.math.BigDecimal;
+public interface Pastry extends Product {
 
-public class Pastry extends Product{
-
-    public Pastry(BigDecimal basePrice, int stockLevel) {
-        super(basePrice, stockLevel);
-    }
 }

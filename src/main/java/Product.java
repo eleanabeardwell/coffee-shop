@@ -1,29 +1,15 @@
 import java.math.BigDecimal;
 
-public abstract class Product {
+public interface Product {
 
-    private BigDecimal basePrice;
-    private int stockLevel;
+    BigDecimal getBasePrice();
 
-    protected Product(BigDecimal basePrice, int stockLevel) {
-        this.basePrice = basePrice;
-        this.stockLevel = stockLevel;
-    }
+    int getStockLevel();
 
-    public BigDecimal getBasePrice() {
-        return basePrice;
-    }
+    void setStockLevel(int s);
 
-    public int getStockLevel() {
-        return stockLevel;
-    }
+    void depleteStockLevel();
 
-    private void setStockLevel(int s) {
-        stockLevel = s;
-    }
-
-    public void depleteStockLevel() {
-        setStockLevel(--stockLevel);
-    }
+    BigDecimal getAdditionalCost();
 
 }
