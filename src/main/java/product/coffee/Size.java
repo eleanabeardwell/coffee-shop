@@ -1,3 +1,5 @@
+package product.coffee;
+
 import java.math.BigDecimal;
 
 public enum Size {

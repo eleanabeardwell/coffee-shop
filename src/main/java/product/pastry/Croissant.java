@@ -1,3 +1,5 @@
+package product.pastry;
+
 import java.math.BigDecimal;
 
 public class Croissant implements Pastry{

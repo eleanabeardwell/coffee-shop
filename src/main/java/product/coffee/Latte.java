@@ -1,14 +1,20 @@
+package product.coffee;
+
+import product.coffee.Coffee;
+
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Cappuccino implements Coffee{
+public class Latte implements Coffee {
 
     private final List<Size> availableSizes = List.of(Size.SMALL, Size.MEDIUM, Size.LARGE);
     private Size size;
-    private BigDecimal basePrice = new BigDecimal("2.75");
+    private BigDecimal basePrice = new BigDecimal("2.55");
     private int stockLevel = 30;
 
-    public Cappuccino(Size size) {setSize(size);}
+    public Latte(Size size) {
+        setSize(size);
+    }
 
     @Override
     public void setSize(Size size) {
@@ -39,7 +45,6 @@ public class Cappuccino implements Coffee{
     @Override
     public void setStockLevel(int s) {
         stockLevel = s;
-
     }
 
     @Override

@@ -1,6 +1,10 @@
+package product.coffee;
+
+import product.Product;
+
 import java.util.List;
 
-public interface Coffee extends Product{
+public interface Coffee extends Product {
 
     void setSize(Size s);
 

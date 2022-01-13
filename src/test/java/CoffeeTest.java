@@ -1,10 +1,16 @@
+import basket.Basket;
+import basket.BasketService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import product.coffee.Cappuccino;
+import product.coffee.Espresso;
+import product.coffee.Latte;
+import product.coffee.Size;
+import product.pastry.Croissant;
 
 import java.math.BigDecimal;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;

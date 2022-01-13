@@ -1,7 +1,11 @@
+package product.coffee;
+
+import product.coffee.Coffee;
+
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Espresso implements Coffee{
+public class Espresso implements Coffee {
 
     private final List<Size> availableSizes = List.of(Size.SINGLE, Size.DOUBLE);
     private Size size;
