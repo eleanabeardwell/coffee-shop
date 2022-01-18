@@ -24,6 +24,9 @@ public class Basket {
     }
 
     public void removeContents(Product p) {
+        if(contents.isEmpty()) {
+            throw new RuntimeException("Basket is empty");
+        }
         contents.remove(p);
     }
 }

@@ -10,10 +10,8 @@ import product.pastry.Croissant;
 
 import java.math.BigDecimal;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CoffeeTest {
 
@@ -68,7 +66,6 @@ class CoffeeTest {
         assertThrows(RuntimeException.class,
                      () -> {
                          var latte = new Latte(Size.SINGLE);
-                         service.addProduct(basket, latte);
                      });
     }
 
@@ -117,6 +114,60 @@ class CoffeeTest {
         BigDecimal expected = new BigDecimal("4.85");
         assertEquals(expected, basket.getTotalBasketPrice());
     }
+
+    @Test
+    void testRemovalOfProductFromBasket() {
+        var latte = new Latte(Size.LARGE);
+        service.addProduct(basket, latte);
+        service.removeProduct(basket, latte);
+        assertEquals(basket.getContents().size(), 0);
+    }
+
+    @Test
+    void testAdditionRemovalOfDifferentSizeProductFromBasket() {
+        var largeLatte = new Latte(Size.LARGE);
+        var smallLatte = new Latte(Size.SMALL);
+        service.addProduct(basket, smallLatte);
+        service.addProduct(basket, largeLatte);
+        service.removeProduct(basket, largeLatte);
+        BigDecimal expected = new BigDecimal("2.55");
+        assertEquals(1, basket.getContents().size());
+        assertEquals(expected, basket.getTotalBasketPrice());
+    }
+
+    @Test
+    void testRemovalOnEmptyBasket() {
+        var espresso = new Espresso(Size.SINGLE);
+        assertThrows(RuntimeException.class, () -> {
+                service.removeProduct(basket, espresso);
+        });
+        assertEquals(basket.getContents().size(), 0);
+    }
+
+    @Test
+    void testAdditionOfMultipleQuantity() {
+        var latte = new Latte(Size.SMALL);
+        service.addProduct(basket, latte, 3);
+        assertEquals(3, basket.getContents().size());
+        BigDecimal expected = new BigDecimal("2.55").multiply(BigDecimal.valueOf(3));
+        assertEquals(expected, basket.getTotalBasketPrice());
+    }
+
+    @Test
+    void testAdditionOfMultipleQuantityAndRemoval() {
+        var latteS = new Latte(Size.SMALL);
+        var latteM = new Latte(Size.MEDIUM);
+        service.addProduct(basket, latteS, 10);
+        service.addProduct(basket, latteM, 3);
+        service.removeProduct(basket, latteM);
+        service.removeProduct(basket, latteS, 4);
+        assertEquals(8, basket.getContents().size());
+        BigDecimal a = new BigDecimal("2.55").multiply(BigDecimal.valueOf(6));
+        BigDecimal b = new BigDecimal("2.85").multiply(BigDecimal.valueOf(2));
+        BigDecimal expected = a.add(b);
+        assertEquals(expected, basket.getTotalBasketPrice());
+    }
+
 
 }
 
