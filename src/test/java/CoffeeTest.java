@@ -168,6 +168,35 @@ class CoffeeTest {
         assertEquals(expected, basket.getTotalBasketPrice());
     }
 
+    @Test
+    void testStockLevelDepletionOnCheckout() {
+        var latte = new Latte(Size.SMALL);
+        int originalStock = latte.getStockLevel();
+        int quantity = 3;
+        service.addProduct(basket, latte, quantity);
+        service.checkout(basket);
+        int expected = originalStock - quantity;
+        assertEquals(expected, latte.getStockLevel());
+    }
+
+    @Test
+    void testStockLevelDepletionOnCheckoutOfDifferentProducts() {
+        var latte = new Latte(Size.SMALL);
+        var espresso = new Espresso(Size.DOUBLE);
+        var cappuccino = new Cappuccino(Size.MEDIUM);
+        int originalLatteStock = latte.getStockLevel();
+        int originalCapStock = cappuccino.getStockLevel();
+        int originalEspStock = espresso.getStockLevel();
+        int quantity = 3;
+        service.addProduct(basket, latte, quantity);
+        service.addProduct(basket, cappuccino);
+        service.addProduct(basket, espresso);
+        service.checkout(basket);
+        assertEquals(originalLatteStock - quantity, latte.getStockLevel());
+        assertEquals(originalCapStock - 1, cappuccino.getStockLevel());
+        assertEquals(originalEspStock - 1, espresso.getStockLevel());
+    }
+
 
 }
 

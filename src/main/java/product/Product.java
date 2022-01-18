@@ -14,4 +14,6 @@ public interface Product {
 
     BigDecimal getAdditionalCost();
 
+    String getProductName();
+
 }

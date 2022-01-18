@@ -10,7 +10,7 @@ public class Espresso implements Coffee {
     private final List<Size> availableSizes = List.of(Size.SINGLE, Size.DOUBLE);
     private Size size;
     private BigDecimal basePrice = new BigDecimal("1.10");
-    private int stockLevel = 50;
+    private static int stockLevel = 50;
 
     public Espresso(Size size) {setSize(size);}
 
@@ -29,6 +29,11 @@ public class Espresso implements Coffee {
     @Override
     public List<Size> getAvailableSizes() {
         return availableSizes;
+    }
+
+    @Override
+    public String getProductName() {
+        return "Espresso";
     }
 
     @Override

@@ -10,7 +10,7 @@ public class Cappuccino implements Coffee {
     private final List<Size> availableSizes = List.of(Size.SMALL, Size.MEDIUM, Size.LARGE);
     private Size size;
     private BigDecimal basePrice = new BigDecimal("2.75");
-    private int stockLevel = 30;
+    private static int stockLevel = 30;
 
     public Cappuccino(Size size) {setSize(size);}
 
@@ -55,5 +55,8 @@ public class Cappuccino implements Coffee {
     public BigDecimal getAdditionalCost() {
         return size.getAdditionalCost();
     }
+
+    @Override
+    public String getProductName() { return "Cappuccino";};
 
 }

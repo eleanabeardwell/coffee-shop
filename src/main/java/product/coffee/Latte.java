@@ -10,7 +10,7 @@ public class Latte implements Coffee {
     private final List<Size> availableSizes = List.of(Size.SMALL, Size.MEDIUM, Size.LARGE);
     private Size size;
     private BigDecimal basePrice = new BigDecimal("2.55");
-    private int stockLevel = 30;
+    private static int stockLevel = 30;
 
     public Latte(Size size) {
         setSize(size);
@@ -30,6 +30,11 @@ public class Latte implements Coffee {
     @Override
     public List<Size> getAvailableSizes() {
         return availableSizes;
+    }
+
+    @Override
+    public String getProductName() {
+        return "Latte";
     }
 
     @Override

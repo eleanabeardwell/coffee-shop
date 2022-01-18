@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class Croissant implements Pastry{
 
     private BigDecimal basePrice = new BigDecimal("1.80");
-    private int stockLevel = 15;
+    private static int stockLevel = 15;
 
     @Override
     public BigDecimal getBasePrice() {
@@ -30,5 +30,10 @@ public class Croissant implements Pastry{
     @Override
     public BigDecimal getAdditionalCost() {
         return BigDecimal.ZERO;
+    }
+
+    @Override
+    public String getProductName() {
+        return "Croissant";
     }
 }

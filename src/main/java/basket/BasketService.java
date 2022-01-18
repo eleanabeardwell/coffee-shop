@@ -24,4 +24,11 @@ public class BasketService {
         }
     }
 
+    public void checkout(Basket basket) {
+        for(Product product: basket.getContents()) {
+            product.depleteStockLevel();
+        }
+        ReceiptService.getReceipt(basket);
+    }
+
 }
