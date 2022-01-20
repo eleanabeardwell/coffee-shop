@@ -4,27 +4,33 @@ import product.Product;
 
 public class BasketService {
 
-    public void addProduct(Basket basket, Product product, int quantity) {
+    public Basket basket;
+
+    public BasketService() {
+        this.basket = new Basket();
+    }
+
+    public void addProduct(Product product, int quantity) {
         for(int i = 0; i < quantity; i++) {
             basket.addContents(product);
         }
     }
 
-    public void addProduct(Basket basket, Product product) {
+    public void addProduct(Product product) {
             basket.addContents(product);
     }
 
-    public void removeProduct(Basket basket, Product product) {
+    public void removeProduct(Product product) {
         basket.removeContents(product);
     }
 
-    public void removeProduct(Basket basket, Product product, int quantity) {
+    public void removeProduct(Product product, int quantity) {
         for(int i = 0; i < quantity; i++) {
             basket.removeContents(product);
         }
     }
 
-    public void checkout(Basket basket) {
+    public void checkout() {
         for(Product product: basket.getContents()) {
             product.depleteStockLevel();
         }

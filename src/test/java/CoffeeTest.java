@@ -1,4 +1,3 @@
-import basket.Basket;
 import basket.BasketService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,13 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CoffeeTest {
 
-    private Basket basket;
     private Croissant croissant;
     private BasketService service;
 
     @BeforeEach
     public void setUp() {
-        basket = new Basket();
         croissant = new Croissant();
         service = new BasketService();
     }
@@ -57,7 +54,7 @@ class CoffeeTest {
     @Test
     void testValidLatteSize() {
         var latte = new Latte(Size.LARGE);
-        service.addProduct(basket, latte);
+        service.addProduct(latte);
         assertEquals(Size.LARGE, latte.getSize());
     }
 
@@ -72,100 +69,100 @@ class CoffeeTest {
     @Test
     void testLargeCappuccinoPrice() {
         var cappuccino = new Cappuccino(Size.LARGE);
-        service.addProduct(basket, cappuccino);
+        service.addProduct(cappuccino);
         BigDecimal expected = new BigDecimal("3.35");
-        assertEquals(expected, basket.getTotalBasketPrice());
+        assertEquals(expected, service.basket.getTotalBasketPrice());
     }
 
     @Test
     void testDoubleEspressoPrice() {
         var espresso = new Espresso(Size.DOUBLE);
-        service.addProduct(basket, espresso);
+        service.addProduct(espresso);
         BigDecimal expected = new BigDecimal("2.20");
-        assertEquals(expected, basket.getTotalBasketPrice());
+        assertEquals(expected, service.basket.getTotalBasketPrice());
     }
 
     @Test
     void testSmallLatteAndMediumCappuccinoPrice() {
         var latte = new Latte(Size.SMALL);
         var cappuccino = new Cappuccino(Size.MEDIUM);
-        service.addProduct(basket, latte);
-        service.addProduct(basket, cappuccino);
+        service.addProduct(latte);
+        service.addProduct(cappuccino);
         BigDecimal expected = new BigDecimal("5.60");
-        assertEquals(expected, basket.getTotalBasketPrice());
+        assertEquals(expected, service.basket.getTotalBasketPrice());
     }
 
     @Test
     void testLargeLatteAndDoubleEspressoPrice() {
         var latte = new Latte(Size.LARGE);
         var espresso = new Espresso(Size.DOUBLE);
-        service.addProduct(basket, latte);
-        service.addProduct(basket, espresso);
+        service.addProduct(latte);
+        service.addProduct(espresso);
         BigDecimal expected = new BigDecimal("5.35");
 //        assertThat(basket.getTotalBasketPrice(), compareEquals(expected));
-        assertEquals(expected, basket.getTotalBasketPrice());
+        assertEquals(expected, service.basket.getTotalBasketPrice());
     }
 
     @Test
     void testCappuccinoAndCroissantPrice() {
         var cappuccino = new Cappuccino(Size.MEDIUM);
-        service.addProduct(basket, cappuccino);
-        service.addProduct(basket, croissant);
+        service.addProduct(cappuccino);
+        service.addProduct(croissant);
         BigDecimal expected = new BigDecimal("4.85");
-        assertEquals(expected, basket.getTotalBasketPrice());
+        assertEquals(expected, service.basket.getTotalBasketPrice());
     }
 
     @Test
     void testRemovalOfProductFromBasket() {
         var latte = new Latte(Size.LARGE);
-        service.addProduct(basket, latte);
-        service.removeProduct(basket, latte);
-        assertEquals(basket.getContents().size(), 0);
+        service.addProduct(latte);
+        service.removeProduct(latte);
+        assertEquals(0, service.basket.getContents().size());
     }
 
     @Test
     void testAdditionRemovalOfDifferentSizeProductFromBasket() {
         var largeLatte = new Latte(Size.LARGE);
         var smallLatte = new Latte(Size.SMALL);
-        service.addProduct(basket, smallLatte);
-        service.addProduct(basket, largeLatte);
-        service.removeProduct(basket, largeLatte);
+        service.addProduct(smallLatte);
+        service.addProduct(largeLatte);
+        service.removeProduct(largeLatte);
         BigDecimal expected = new BigDecimal("2.55");
-        assertEquals(1, basket.getContents().size());
-        assertEquals(expected, basket.getTotalBasketPrice());
+        assertEquals(1, service.basket.getContents().size());
+        assertEquals(expected, service.basket.getTotalBasketPrice());
     }
 
     @Test
     void testRemovalOnEmptyBasket() {
         var espresso = new Espresso(Size.SINGLE);
         assertThrows(RuntimeException.class, () -> {
-                service.removeProduct(basket, espresso);
+                service.removeProduct(espresso);
         });
-        assertEquals(basket.getContents().size(), 0);
+        assertEquals(0, service.basket.getContents().size());
     }
 
     @Test
     void testAdditionOfMultipleQuantity() {
         var latte = new Latte(Size.SMALL);
-        service.addProduct(basket, latte, 3);
-        assertEquals(3, basket.getContents().size());
+        service.addProduct(latte, 3);
+        assertEquals(3, service.basket.getContents().size());
         BigDecimal expected = new BigDecimal("2.55").multiply(BigDecimal.valueOf(3));
-        assertEquals(expected, basket.getTotalBasketPrice());
+        assertEquals(expected, service.basket.getTotalBasketPrice());
     }
 
     @Test
     void testAdditionOfMultipleQuantityAndRemoval() {
         var latteS = new Latte(Size.SMALL);
         var latteM = new Latte(Size.MEDIUM);
-        service.addProduct(basket, latteS, 10);
-        service.addProduct(basket, latteM, 3);
-        service.removeProduct(basket, latteM);
-        service.removeProduct(basket, latteS, 4);
-        assertEquals(8, basket.getContents().size());
+        service.addProduct(latteS, 10);
+        service.addProduct(latteM, 3);
+        service.removeProduct(latteM);
+        service.removeProduct(latteS, 4);
+        assertEquals(8, service.basket.getContents().size());
         BigDecimal a = new BigDecimal("2.55").multiply(BigDecimal.valueOf(6));
         BigDecimal b = new BigDecimal("2.85").multiply(BigDecimal.valueOf(2));
         BigDecimal expected = a.add(b);
-        assertEquals(expected, basket.getTotalBasketPrice());
+        assertEquals(expected, service.basket.getTotalBasketPrice());
     }
 
     @Test
@@ -173,8 +170,8 @@ class CoffeeTest {
         var latte = new Latte(Size.SMALL);
         int originalStock = latte.getStockLevel();
         int quantity = 3;
-        service.addProduct(basket, latte, quantity);
-        service.checkout(basket);
+        service.addProduct(latte, quantity);
+        service.checkout();
         int expected = originalStock - quantity;
         assertEquals(expected, latte.getStockLevel());
     }
@@ -188,10 +185,10 @@ class CoffeeTest {
         int originalCapStock = cappuccino.getStockLevel();
         int originalEspStock = espresso.getStockLevel();
         int quantity = 3;
-        service.addProduct(basket, latte, quantity);
-        service.addProduct(basket, cappuccino);
-        service.addProduct(basket, espresso);
-        service.checkout(basket);
+        service.addProduct(latte, quantity);
+        service.addProduct(cappuccino);
+        service.addProduct(espresso);
+        service.checkout();
         assertEquals(originalLatteStock - quantity, latte.getStockLevel());
         assertEquals(originalCapStock - 1, cappuccino.getStockLevel());
         assertEquals(originalEspStock - 1, espresso.getStockLevel());
