@@ -4,7 +4,7 @@ import product.Product;
 
 public class BasketService {
 
-    public Basket basket;
+    private Basket basket;
 
     public BasketService() {
         this.basket = new Basket();
@@ -35,6 +35,10 @@ public class BasketService {
             product.depleteStockLevel();
         }
         ReceiptService.getReceipt(basket);
+    }
+
+    public Basket getBasket() {
+        return basket;
     }
 
 }

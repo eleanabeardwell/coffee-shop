@@ -71,7 +71,7 @@ class CoffeeTest {
         var cappuccino = new Cappuccino(Size.LARGE);
         service.addProduct(cappuccino);
         BigDecimal expected = new BigDecimal("3.35");
-        assertEquals(expected, service.basket.getTotalBasketPrice());
+        assertEquals(expected, service.getBasket().getTotalBasketPrice());
     }
 
     @Test
@@ -79,7 +79,7 @@ class CoffeeTest {
         var espresso = new Espresso(Size.DOUBLE);
         service.addProduct(espresso);
         BigDecimal expected = new BigDecimal("2.20");
-        assertEquals(expected, service.basket.getTotalBasketPrice());
+        assertEquals(expected, service.getBasket().getTotalBasketPrice());
     }
 
     @Test
@@ -89,7 +89,7 @@ class CoffeeTest {
         service.addProduct(latte);
         service.addProduct(cappuccino);
         BigDecimal expected = new BigDecimal("5.60");
-        assertEquals(expected, service.basket.getTotalBasketPrice());
+        assertEquals(expected, service.getBasket().getTotalBasketPrice());
     }
 
     @Test
@@ -100,7 +100,7 @@ class CoffeeTest {
         service.addProduct(espresso);
         BigDecimal expected = new BigDecimal("5.35");
 //        assertThat(basket.getTotalBasketPrice(), compareEquals(expected));
-        assertEquals(expected, service.basket.getTotalBasketPrice());
+        assertEquals(expected, service.getBasket().getTotalBasketPrice());
     }
 
     @Test
@@ -109,7 +109,7 @@ class CoffeeTest {
         service.addProduct(cappuccino);
         service.addProduct(croissant);
         BigDecimal expected = new BigDecimal("4.85");
-        assertEquals(expected, service.basket.getTotalBasketPrice());
+        assertEquals(expected, service.getBasket().getTotalBasketPrice());
     }
 
     @Test
@@ -117,7 +117,7 @@ class CoffeeTest {
         var latte = new Latte(Size.LARGE);
         service.addProduct(latte);
         service.removeProduct(latte);
-        assertEquals(0, service.basket.getContents().size());
+        assertEquals(0, service.getBasket().getContents().size());
     }
 
     @Test
@@ -128,8 +128,8 @@ class CoffeeTest {
         service.addProduct(largeLatte);
         service.removeProduct(largeLatte);
         BigDecimal expected = new BigDecimal("2.55");
-        assertEquals(1, service.basket.getContents().size());
-        assertEquals(expected, service.basket.getTotalBasketPrice());
+        assertEquals(1, service.getBasket().getContents().size());
+        assertEquals(expected, service.getBasket().getTotalBasketPrice());
     }
 
     @Test
@@ -138,16 +138,16 @@ class CoffeeTest {
         assertThrows(RuntimeException.class, () -> {
                 service.removeProduct(espresso);
         });
-        assertEquals(0, service.basket.getContents().size());
+        assertEquals(0, service.getBasket().getContents().size());
     }
 
     @Test
     void testAdditionOfMultipleQuantity() {
         var latte = new Latte(Size.SMALL);
         service.addProduct(latte, 3);
-        assertEquals(3, service.basket.getContents().size());
+        assertEquals(3, service.getBasket().getContents().size());
         BigDecimal expected = new BigDecimal("2.55").multiply(BigDecimal.valueOf(3));
-        assertEquals(expected, service.basket.getTotalBasketPrice());
+        assertEquals(expected, service.getBasket().getTotalBasketPrice());
     }
 
     @Test
@@ -158,11 +158,11 @@ class CoffeeTest {
         service.addProduct(latteM, 3);
         service.removeProduct(latteM);
         service.removeProduct(latteS, 4);
-        assertEquals(8, service.basket.getContents().size());
+        assertEquals(8, service.getBasket().getContents().size());
         BigDecimal a = new BigDecimal("2.55").multiply(BigDecimal.valueOf(6));
         BigDecimal b = new BigDecimal("2.85").multiply(BigDecimal.valueOf(2));
         BigDecimal expected = a.add(b);
-        assertEquals(expected, service.basket.getTotalBasketPrice());
+        assertEquals(expected, service.getBasket().getTotalBasketPrice());
     }
 
     @Test
